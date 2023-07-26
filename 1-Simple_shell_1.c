@@ -1,36 +1,56 @@
 #include "shell.h"
 /**
- * shell_commande - function Display a prompt to type a command
- * @command: the command line
- * @envp: array of environment variables passed to the program
+ * promr - to printf the promp
  */
-void shell_commande(char *command, char *envp[])
+void prompt(void)
 {
-	{
-	pid_t pid = fork();
+	printf("#cisfun$ ");
+}
 
-	if (pid == 0)
-	{
-		char *argv[2];
+void execute_command(char* command) {
+    pid_t pid = fork();
 
-		argv[0] = command;
-		argv[1] = NULL;
+    if (pid < 0) {
+        perror("Fork failed");
+    } else if (pid == 0) {
+        // Child process
+        if (execlp(command, command, NULL) == -1) {
+            perror("Execution failed");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        // Parent process
+        int status;
+        waitpid(pid, &status, 0);
+    }
+}
 
-		execve(command, argv, envp);
-		fprintf(stderr, "Command not found: %s\n", command);
-		exit(EXIT_FAILURE);
-	}
-	else if (pid > 0)
-	{
-		wait(NULL);
-		/*printf("#cisfun$ ");*/
-		fflush(stdout);
-	}
-	else
-	{
-		fprintf(stderr, "ERROR: Fork failed\n");
-		exit(EXIT_FAILURE);
-	}
+int main() {
+    char *command = NULL;
+    size_t buffer_size = 0;
+    ssize_t characters_read;
 
-	}
+    while (1) {
+        prompt();
+
+        characters_read = getline(&command, &buffer_size, stdin);
+
+        if (characters_read == -1) {
+            // Handle "Ctrl+D" (EOF)
+            printf("\n");
+            break;
+        }
+
+        // Remove the newline character from the command
+        command[characters_read - 1] = '\0';
+
+        if (strcmp(command, "exit") == 0) {
+            break;
+        }
+
+        execute_command(command);
+    }
+
+    free(command);
+    return 0;
 }
