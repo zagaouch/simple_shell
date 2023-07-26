@@ -2,7 +2,7 @@
 /**
  * runShell - Shell implementation function
  */
-void runShell()
+void runShell(void)
 {
 	char *command = NULL;
 	size_t command_size = 0;

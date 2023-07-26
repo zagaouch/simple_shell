@@ -1,6 +1,7 @@
 #include "shell.h"
 /**
  * executeCommand - fucntion to execute the commande
+ * @command : the command
  */
 
 void executeCommand(const char *command)
@@ -17,7 +18,8 @@ void executeCommand(const char *command)
 		char *command_copy = strdup(command);
 		char *args[] = {command_copy, NULL};
 
-		if (execve(command_copy, args, environ) == -1) {
+		if (execve(command_copy, args, environ) == -1)
+		{
 			fprintf(stderr, "Command '%s' not found\n", command);
 			free(command_copy);
 			exit(EXIT_FAILURE);
@@ -33,12 +35,13 @@ void executeCommand(const char *command)
 			int exit_status = WEXITSTATUS(status);
 
 			if (exit_status != 0)
-				fprintf(stderr, "Command '%s' exited with status %d\n", command, exit_status);
+				fprintf(stderr, "Command '%s' exited status %d\n", command, exit_status);
 		}
 		else if (WIFSIGNALED(status))
 		{
 			int signal_number = WTERMSIG(status);
-			fprintf(stderr, "Command '%s' terminated with signal %d\n", command, signal_number);
+
+fprintf(stderr, "Command '%s' terminated signal %d\n", command, signal_number);
 		}
 	}
 }

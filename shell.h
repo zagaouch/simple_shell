@@ -7,9 +7,9 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-void runShell();
+void runShell(void);
 void executeCommand(const char *command);
-void printEnvironment();
+void printEnvironment(void);
 
 extern char **environ;
 
