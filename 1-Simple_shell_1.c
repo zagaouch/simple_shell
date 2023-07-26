@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * promr - to printf the promp
+ * prompt - to printf the promp
  */
 void prompt(void)
 {
@@ -10,7 +10,7 @@ void prompt(void)
  * execute_command - function to exec command
  * @command : the command
  */
-void execute_command(char* command)
+void execute_command(char *command)
 {
 	pid_t pid = fork();
 
@@ -40,6 +40,7 @@ int main(void)
 	char *command = NULL;
 	size_t buffer_size = 0;
 	ssize_t characters_read;
+
 	while (1)
 	{
 		prompt();

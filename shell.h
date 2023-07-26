@@ -15,6 +15,6 @@
 #define MAX_COMMAND_LENGTH 100
 /* fucntion liste */
 void prompt(void);
-void execute_command(char* command);
+void execute_command(char *command);
 int main(void);
 #endif
