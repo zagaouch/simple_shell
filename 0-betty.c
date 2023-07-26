@@ -1,7 +1,7 @@
 #include <stdio.h>
 /**
  * msg - print a msg
- * Return : 0
+ * Return: 0
  */
 int msg(void)
 {

@@ -2,7 +2,7 @@
 
 /**
  * main - execute the commende line
- * Return 0
+ * Return: 0
  */
 int main(void)
 {
@@ -25,5 +25,5 @@ int main(void)
 		fflush(stdout);
 	}
 
-	return 0;
+	return (0);
 }
