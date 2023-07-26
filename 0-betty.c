@@ -2,7 +2,7 @@
 /**
  * main - print a msg
  */
-void mein(void)
+void main(void)
 {
 	printf("c is fun\nlool\n");
 }
