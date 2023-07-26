@@ -1,8 +1,10 @@
 #include <stdio.h>
 /**
- * main - print a msg
+ * msg - print a msg
+ * Return : 0
  */
-void main(void)
+int msg(void)
 {
 	printf("c is fun\nlool\n");
+	return (0);
 }
