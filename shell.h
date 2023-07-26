@@ -14,7 +14,7 @@
 #define MAX_ARGUMENTS 10
 #define MAX_COMMAND_LENGTH 100
 /* fucntion liste */
-void shell_commande(char *command, char *envp[]);
-void shell_command(char *command, char *arguments[]);
+void prompt(void);
+void execute_command(char* command);
 int main(void);
 #endif
