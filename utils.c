@@ -1,9 +1,23 @@
 #include "shell.h"
 
-/** parse_command - determines the type of the commands
- * @command: command
+/**
+ * Auth: Emma Udeji
+ * 		 Pericles Adjovi
  *
- * Return: constant
+ * Description:
+ * the extended functions for main.c
+ */
+
+
+/** parse_command - determines the type of the command
+ * @command: command to be parsed
+ *
+ * Return: constant representing the type of the command
+ * Description -
+ * 		 EXTERNAL_COMMAND (1) represents commands like /bin/ls
+ *		 INTERNAL_COMMAND (2) represents commands like exit, env
+ *		 PATH_COMMAND (3) represents commands found in the PATH like ls
+ *		 INVALID_COMMAND (-1) represents invalid commands
  */
 
 int parse_command(char *command)
@@ -22,6 +36,7 @@ int parse_command(char *command)
 		if (_strcmp(command, internal_command[i]) == 0)
 			return (INTERNAL_COMMAND);
 	}
+	/* @check_path - checks if a command is found in the PATH */
 	path = check_path(command);
 	if (path != NULL)
 	{
@@ -33,18 +48,19 @@ int parse_command(char *command)
 }
 
 /**
- * execute_command - executes a command
- * @toke_cmd: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * execute_command - executes a command based on it's type
+ * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
  * @command_type: type of the command
  *
+ * Return: void
  */
-void execute_command(char **toke_cmd, int command_type)
+void execute_command(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 
 	if (command_type == EXTERNAL_COMMAND)
 	{
-		if (execve(toke_cmd[0], toke_cmd, NULL) == -1)
+		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -52,7 +68,7 @@ void execute_command(char **toke_cmd, int command_type)
 	}
 	if (command_type == PATH_COMMAND)
 	{
-		if (execve(check_path(toke_cmd[0]), toke_cmd, NULL) == -1)
+		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -60,14 +76,14 @@ void execute_command(char **toke_cmd, int command_type)
 	}
 	if (command_type == INTERNAL_COMMAND)
 	{
-		func = get_func(toke_cmd[0]);
-		func(toke_cmd);
+		func = get_func(tokenized_command[0]);
+		func(tokenized_command);
 	}
 	if (command_type == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(toke_cmd[0], STDERR_FILENO);
+		print(tokenized_command[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
@@ -75,9 +91,9 @@ void execute_command(char **toke_cmd, int command_type)
 
 /**
  * check_path - checks if a command is found in the PATH
- * @command: command 
+ * @command: command to be used
  *
- * Return: path where the command is found in,or NULL
+ * Return: path where the command is found in, NULL if not found
  */
 char *check_path(char *command)
 {

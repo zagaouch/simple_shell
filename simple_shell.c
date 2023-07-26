@@ -1,5 +1,11 @@
 #include "shell.h"
 
+
+	char **commands = NULL;
+	char *line = NULL;
+	char *shell_name = NULL;
+	int status = 0;
+
 /**
  * main - the main shell code
  * @argc: number of arguments passed
@@ -14,12 +20,12 @@
 
 int main(int argc __attribute__((unused)), char **argv)
 {
-	char **comds = NULL, *line = NULL, s_name = NULL, **current_cmd = NULL;
-	int i, type_command = 0, status = 0;;
+	char **current_command = NULL;
+	int i, type_command = 0;
 	size_t n = 0;
 
 	signal(SIGINT, ctrl_c_handler);
-	s_name = argv[0];
+	shell_name = argv[0];
 	while (1)
 	{
 		non_interactive();
@@ -31,23 +37,23 @@ int main(int argc __attribute__((unused)), char **argv)
 		}
 			remove_newline(line);
 			remove_comment(line);
-			comds = tokenizer(line, ";");
+			commands = tokenizer(line, ";");
 
-		for (i = 0; comds[i] != NULL; i++)
+		for (i = 0; commands[i] != NULL; i++)
 		{
-			current_cmd = tokenizer(comds[i], " ");
-			if (current_cmd[0] == NULL)
+			current_command = tokenizer(commands[i], " ");
+			if (current_command[0] == NULL)
 			{
-				free(current_cmd);
+				free(current_command);
 				break;
 			}
-			type_command = parse_command(current_cmd[0]);
+			type_command = parse_command(current_command[0]);
 
 			/* initializer -   */
-			initializer(current_cmd, type_command);
-			free(current_cmd);
+			initializer(current_command, type_command);
+			free(current_command);
 		}
-		free(comds);
+		free(commands);
 	}
 	free(line);
 
