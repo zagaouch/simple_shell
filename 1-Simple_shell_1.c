@@ -4,7 +4,7 @@
  */
 void prompt(void)
 {
-	printf("#cisfun$ ");
+	printf("$ ");
 }
 /**
  * execute_command - function to exec command
