@@ -8,7 +8,7 @@ int main(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 
-	printf("$ ");
+	printf("#cisfun$ ");
 	fflush(stdout);
 
 	while (fgets(command, sizeof(command), stdin))
