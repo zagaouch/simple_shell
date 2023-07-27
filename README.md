@@ -1,4 +1,4 @@
-0x16. C - Simple Shell
+0x16. C - simple_shell
 # Simple Shell
 
 This is a simple shell written in C. It can be used to execute commands, run programs, and redirect input and output.
